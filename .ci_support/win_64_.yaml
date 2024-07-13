@@ -1,0 +1,43 @@
+c_compiler:
+- vs2019
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge pdal_rc
+cxx_compiler:
+- vs2019
+geotiff:
+- 1.7.3
+gflags:
+- '2.2'
+glog:
+- '0.7'
+hdf5:
+- 1.14.3
+libarrow:
+- '13'
+- '14'
+- '15'
+- '16.1'
+libcurl:
+- '8'
+libpq:
+- '16'
+libxml2:
+- '2'
+openssl:
+- '3'
+proj:
+- '9.4'
+target_platform:
+- win-64
+tiledb:
+- '2.24'
+xerces_c:
+- '3.2'
+zlib:
+- '1'
+zstd:
+- '1.5'
