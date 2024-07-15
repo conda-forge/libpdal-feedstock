@@ -9,7 +9,7 @@ source:
   sha256: f6ae0f3dc012b19c70dde2361799ecac0cdcbeb9cad5cfd96313c9fdc8608f32
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le]
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
@@ -23,7 +23,7 @@ requirements:
     - ninja
     - pkg-config
   host:
-    - {{ pin_compatible('libgdal', max_pin='x.x') }}
+    - libgdal-core
     - geotiff
     - libcurl
     - zstd
@@ -105,7 +105,7 @@ outputs:
         - ninja
       host:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
-        - {{ pin_compatible('libgdal', max_pin='x.x') }}
+        - libgdal-core
         - ceres-solver
         - glog
         - gflags
@@ -145,6 +145,7 @@ outputs:
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
         - {{ pin_subpackage('libpdal-icebridge', exact=True) }}
+        - libgdal-hdf5
       run_constrained:
         - pdal {{ version }}.*
     test:
@@ -156,7 +157,6 @@ outputs:
       summary: Point Data Abstraction Library (PDAL)
       license: BSD-3-Clause
       license_file: LICENSE.txt
-
 
   - name: libpdal-draco
     script: install_pdal_plugin.sh  # [unix]
@@ -276,6 +276,7 @@ outputs:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-tiledb
       run_constrained:
         - pdal {{ version }}.*
     test:
@@ -314,6 +315,8 @@ outputs:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-pg
+        - libgdal-postgisraster
       run_constrained:
         - pdal {{ version }}.*
     test:
@@ -348,6 +351,7 @@ outputs:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-arrow-parquet
       run_constrained:
         - pdal {{ version }}.*
     test:
