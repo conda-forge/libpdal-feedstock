@@ -17,10 +17,10 @@ glog:
 hdf5:
 - 1.14.3
 libarrow:
-- '13'
 - '14'
 - '15'
 - '16.1'
+- '17.0'
 libcurl:
 - '8'
 libgdal_core:
