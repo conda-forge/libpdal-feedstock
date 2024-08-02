@@ -11,9 +11,12 @@ export CXXFLAGS
 if [ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]; then
   mkdir native; pushd native;
 
+  CFLAGS_NATIVE=${CFLAGS//$PREFIX/$BUILD_PREFIX}
   CXXFLAGS_NATIVE=${CXXFLAGS//$PREFIX/$BUILD_PREFIX}
   LDFLAGS_NATIVE=${LDFLAGS//$PREFIX/$BUILD_PREFIX}
-  CFLAGS_NATIVE=${CFLAGS//$PREFIX/$BUILD_PREFIX}
+  # also need to strip wrong architectures specifications for native builds
+  CFLAGS_NATIVE="$(echo ${CFLAGS_NATIVE} | sed 's/-march=[^ ]*//g' | sed 's/-mcpu=[^ ]*//g' | sed 's/-mtune=[^ ]*//g')"
+  CXXFLAGS_NATIVE="$(echo ${CXXFLAGS_NATIVE} | sed 's/-march=[^ ]*//g' | sed 's/-mcpu=[^ ]*//g' | sed 's/-mtune=[^ ]*//g')"
 
   CC=$CC_FOR_BUILD CXX=$CXX_FOR_BUILD \
     LDFLAGS=${LDFLAGS_NATIVE} \
