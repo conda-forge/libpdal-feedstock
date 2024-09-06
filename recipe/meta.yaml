@@ -95,6 +95,9 @@ outputs:
         - PDAL_PLUGIN_NAME=trajectory
       run_exports:
         - {{ pin_subpackage("libpdal-trajectory", max_pin="x.x") }}
+      ignore_run_exports_from:
+        - libblas
+        - libcblas
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -108,6 +111,8 @@ outputs:
         - ceres-solver
         - glog
         - gflags
+        - libblas
+        - libcblas
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run_constrained:
