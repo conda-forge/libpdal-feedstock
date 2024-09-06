@@ -98,6 +98,8 @@ outputs:
       ignore_run_exports_from:
         - libblas
         - libcblas
+        - mkl  # [win]
+        - blas  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -113,6 +115,8 @@ outputs:
         - gflags
         - libblas
         - libcblas
+        - mkl  # [win]
+        - blas  # [win]
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run_constrained:
