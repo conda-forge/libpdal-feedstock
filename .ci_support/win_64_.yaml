@@ -21,6 +21,10 @@ libarrow:
 - '15'
 - '16.1'
 - '17.0'
+libblas:
+- 3.9 *netlib
+libcblas:
+- 3.9 *netlib
 libcurl:
 - '8'
 libgdal_core:
@@ -29,6 +33,8 @@ libpq:
 - '16'
 libxml2:
 - '2'
+mkl:
+- '2023'
 openssl:
 - '3'
 proj:
@@ -36,7 +42,7 @@ proj:
 target_platform:
 - win-64
 tiledb:
-- '2.25'
+- '2.26'
 xerces_c:
 - '3.2'
 zlib:
