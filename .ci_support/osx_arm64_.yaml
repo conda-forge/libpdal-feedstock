@@ -31,6 +31,10 @@ libarrow:
 - '15'
 - '16.1'
 - '17.0'
+libblas:
+- 3.9 *netlib
+libcblas:
+- 3.9 *netlib
 libcurl:
 - '8'
 libgdal_core:
@@ -44,7 +48,7 @@ macos_machine:
 openssl:
 - '3'
 proj:
-- '9.4'
+- '9.5'
 target_platform:
 - osx-arm64
 tiledb:
