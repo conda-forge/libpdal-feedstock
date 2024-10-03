@@ -30,7 +30,7 @@ libcurl:
 libgdal_core:
 - '3.9'
 libpq:
-- '16'
+- '17'
 libxml2:
 - '2'
 mkl:
@@ -42,7 +42,7 @@ proj:
 target_platform:
 - win-64
 tiledb:
-- '2.25'
+- '2.26'
 xerces_c:
 - '3.2'
 zlib:
