@@ -34,7 +34,7 @@ libpq:
 libxml2:
 - '2'
 mkl:
-- '2023'
+- '2024'
 openssl:
 - '3'
 proj:
