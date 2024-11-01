@@ -354,8 +354,8 @@ outputs:
         - ninja
       host:
         - libarrow
-        - libarrow-dataset  # [libarrow != 13]
-        - libparquet        # [libarrow != 13]
+        - libarrow-dataset
+        - libparquet
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
