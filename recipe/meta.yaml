@@ -30,6 +30,11 @@ requirements:
     - zlib
     - libxml2
     - proj
+  run:
+    # help solver choose icu-comptible libxml2, because libgdal-core
+    # needs xerces-c which depends on icu on unix, c.f. also
+    # https://github.com/conda-forge/libxml2-feedstock/pull/121
+    - icu *     # [unix]
   run_constrained:
     - pdal {{ version }}.*
 
@@ -345,6 +350,9 @@ outputs:
         - PDAL_PLUGIN_NAME=arrow
       run_exports:
         - {{ pin_subpackage("libpdal-arrow", max_pin="x.x") }}
+      ignore_run_exports_from:
+        # hide icu from being picked up by smithy
+        - {{ "icu" }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -356,6 +364,8 @@ outputs:
         - libarrow
         - libarrow-dataset
         - libparquet
+        # see comment w.r.t. libxml2 & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
