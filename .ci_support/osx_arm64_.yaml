@@ -5,7 +5,7 @@ MACOSX_SDK_VERSION:
 c_compiler:
 - clang
 c_compiler_version:
-- '17'
+- '18'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,7 +17,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '17'
+- '18'
 geotiff:
 - 1.7.3
 gflags:
@@ -27,10 +27,10 @@ glog:
 hdf5:
 - 1.14.3
 libarrow:
-- '14'
 - '15'
 - '16.1'
 - '17.0'
+- '18.0'
 libblas:
 - 3.9 *netlib
 libcblas:

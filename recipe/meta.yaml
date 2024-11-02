@@ -9,7 +9,7 @@ source:
   sha256: 0e8d7deabe721f806b275dda6cf5630a8e43dc7210299b57c91f46fadcc34b31
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
 
@@ -30,6 +30,11 @@ requirements:
     - zlib
     - libxml2
     - proj
+  run:
+    # help solver choose icu-comptible libxml2, because libgdal-core
+    # needs xerces-c which depends on icu on unix, c.f. also
+    # https://github.com/conda-forge/libxml2-feedstock/pull/121
+    - icu *     # [unix]
   run_constrained:
     - pdal {{ version }}.*
 
@@ -272,6 +277,9 @@ outputs:
         - PDAL_PLUGIN_NAME=tiledb
       run_exports:
         - {{ pin_subpackage("libpdal-tiledb", max_pin="x.x") }}
+      ignore_run_exports_from:
+        # hide icu from being picked up by smithy
+        - {{ "icu" }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -281,6 +289,8 @@ outputs:
         - ninja
       host:
         - tiledb
+        # see comment w.r.t. libxml2 & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
@@ -345,6 +355,9 @@ outputs:
         - PDAL_PLUGIN_NAME=arrow
       run_exports:
         - {{ pin_subpackage("libpdal-arrow", max_pin="x.x") }}
+      ignore_run_exports_from:
+        # hide icu from being picked up by smithy
+        - {{ "icu" }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -354,8 +367,10 @@ outputs:
         - ninja
       host:
         - libarrow
-        - libarrow-dataset  # [libarrow != 13]
-        - libparquet        # [libarrow != 13]
+        - libarrow-dataset
+        - libparquet
+        # see comment w.r.t. libxml2 & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
@@ -423,6 +438,9 @@ outputs:
       skip: true  # [win]
       run_exports:
         - {{ pin_subpackage("libpdal-cpd", max_pin="x.x") }}
+      ignore_run_exports_from:
+        # hide icu from being picked up by smithy
+        - {{ "icu" }}
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -434,6 +452,8 @@ outputs:
       host:
         - cpd
         - fgt
+        # see comment w.r.t. libxml2 & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         # TODO: add run_exports to cpd
