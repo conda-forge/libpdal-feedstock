@@ -28,7 +28,7 @@ libcblas:
 libcurl:
 - '8'
 libgdal_core:
-- '3.9'
+- '3.10'
 libpq:
 - '17'
 libxml2:
