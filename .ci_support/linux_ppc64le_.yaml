@@ -7,7 +7,7 @@ c_stdlib:
 c_stdlib_version:
 - '2.17'
 cdt_name:
-- cos7
+- conda
 channel_sources:
 - conda-forge
 channel_targets:
@@ -38,7 +38,7 @@ libcblas:
 libcurl:
 - '8'
 libgdal_core:
-- '3.9'
+- '3.10'
 libpq:
 - '17'
 libxml2:
@@ -56,8 +56,6 @@ xerces_c:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - c_stdlib_version
-  - cdt_name
 zlib:
 - '1'
 zstd:
