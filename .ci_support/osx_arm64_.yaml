@@ -30,7 +30,7 @@ libarrow:
 - '15'
 - '16.1'
 - '17.0'
-- '18.0'
+- '18.1'
 libblas:
 - 3.9 *netlib
 libcblas:
@@ -39,6 +39,8 @@ libcurl:
 - '8'
 libgdal_core:
 - '3.10'
+libpdal:
+- 2.8.0
 libpq:
 - '17'
 libxml2:
