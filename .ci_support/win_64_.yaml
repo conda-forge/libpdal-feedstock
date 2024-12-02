@@ -29,8 +29,6 @@ libcurl:
 - '8'
 libgdal_core:
 - '3.10'
-libpdal:
-- 2.8.0
 libpq:
 - '17'
 libxml2:
