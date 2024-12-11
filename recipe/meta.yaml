@@ -456,6 +456,7 @@ outputs:
         - fgt
         # see comment w.r.t. libxml2 & icu at the top
         - icu *             # [unix]
+        - libgdal-core
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         # TODO: add run_exports to cpd
