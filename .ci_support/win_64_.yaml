@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2019
 geotiff:
-- 1.7.3
+- '1.7'
 gflags:
 - '2.2'
 glog:
@@ -30,7 +30,7 @@ libcurl:
 libgdal_core:
 - '3.10'
 libpdal:
-- 2.8.2
+- 2.8.4
 libpq:
 - '17'
 libxml2:
@@ -40,7 +40,7 @@ mkl:
 openssl:
 - '3'
 proj:
-- '9.5'
+- '9.6'
 target_platform:
 - win-64
 tiledb:
