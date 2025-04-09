@@ -34,7 +34,7 @@ libpdal:
 libpq:
 - '17'
 libxml2:
-- '2'
+- '2.13'
 mkl:
 - '2024'
 openssl:
