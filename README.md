@@ -46,6 +46,15 @@ Package license: BSD-3-Clause
 
 Summary: Point Data Abstraction Library (PDAL)
 
+About libpdal-hdf
+-----------------
+
+
+
+Package license: BSD-3-Clause
+
+Summary: Point Data Abstraction Library (PDAL)
+
 About libpdal-nitf
 ------------------
 
@@ -81,15 +90,6 @@ About libpdal-trajectory
 Package license: BSD-3-Clause
 
 Summary: PDAL trajectory filter
-
-About libpdal-hdf
------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
 
 Current build status
 ====================
