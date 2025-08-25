@@ -1,7 +1,7 @@
 c_compiler:
 - gcc
 c_compiler_version:
-- '13'
+- '14'
 c_stdlib:
 - sysroot
 c_stdlib_version:
@@ -15,7 +15,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '13'
+- '14'
 docker_image:
 - quay.io/condaforge/linux-anvil-x86_64:alma9
 geotiff:
@@ -27,10 +27,10 @@ glog:
 hdf5:
 - 1.14.6
 libarrow:
-- '17.0'
 - '18.1'
 - '19.0'
 - '20.0'
+- '21.0'
 libblas:
 - 3.9.* *netlib
 libcblas:
@@ -40,7 +40,7 @@ libcurl:
 libgdal_core:
 - '3.11'
 libpdal:
-- 2.8.4
+- '2.9'
 libpq:
 - '17'
 libxml2:
