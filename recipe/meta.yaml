@@ -9,7 +9,7 @@ source:
   sha256: a5508e30b5d2e5154fd5e686a444ae3f835607807b5d22f26d97d184ff4b74d8
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
 
