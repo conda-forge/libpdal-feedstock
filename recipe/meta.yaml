@@ -1,4 +1,4 @@
-{% set version = "2.9.1" %}
+{% set version = "2.9.2" %}
 
 package:
   name: libpdal-core
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/PDAL/PDAL/releases/download/{{ version }}/PDAL-{{ version }}-src.tar.bz2
-  sha256: a5508e30b5d2e5154fd5e686a444ae3f835607807b5d22f26d97d184ff4b74d8
+  sha256: a74bbc7f4e4f709ed589dbbb851926a63c391c974e3fc40a4c3ff34f7923021b
 
 build:
   number: 0
