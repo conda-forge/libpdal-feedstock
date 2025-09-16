@@ -48,7 +48,7 @@ libxml2_devel:
 openssl:
 - '3'
 proj:
-- '9.6'
+- '9.7'
 target_platform:
 - linux-64
 tiledb:

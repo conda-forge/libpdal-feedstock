@@ -40,7 +40,7 @@ mkl:
 openssl:
 - '3'
 proj:
-- '9.6'
+- '9.7'
 target_platform:
 - win-64
 tiledb:
