@@ -43,8 +43,8 @@ libpdal:
 - 2.9.1
 libpq:
 - '17'
-libxml2:
-- '2.13'
+libxml2_devel:
+- '2.14'
 macos_machine:
 - arm64-apple-darwin20.0.0
 openssl:
