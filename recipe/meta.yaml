@@ -334,7 +334,6 @@ outputs:
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
         - libgdal-pg
-        - libgdal-postgisraster
       run_constrained:
         - pdal {{ version }}.*
     test:
