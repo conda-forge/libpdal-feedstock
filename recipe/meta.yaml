@@ -9,7 +9,7 @@ source:
   sha256: a74bbc7f4e4f709ed589dbbb851926a63c391c974e3fc40a4c3ff34f7923021b
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
 
@@ -334,7 +334,6 @@ outputs:
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
         - libgdal-pg
-        - libgdal-postgisraster
       run_constrained:
         - pdal {{ version }}.*
     test:
