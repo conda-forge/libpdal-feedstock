@@ -40,7 +40,7 @@ libcurl:
 libgdal_core:
 - '3.11'
 libpdal:
-- 2.9.1
+- 2.9.2
 libpq:
 - '18'
 libxml2_devel:
@@ -48,13 +48,13 @@ libxml2_devel:
 macos_machine:
 - x86_64-apple-darwin13.4.0
 openssl:
-- '3'
+- '3.5'
 proj:
 - '9.7'
 target_platform:
 - osx-64
 tiledb:
-- '2.28'
+- '2.29'
 xerces_c:
 - '3.2'
 zip_keys:
