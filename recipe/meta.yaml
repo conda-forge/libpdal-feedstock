@@ -28,7 +28,13 @@ requirements:
     - zstd
     - openssl
     - zlib
+    - libxml2-devel
     - proj
+  run:
+    # help solver choose icu-comptible libxml2, because libgdal-core
+    # needs xerces-c which depends on icu on unix, c.f. also
+    # https://github.com/conda-forge/libxml2-feedstock/pull/121
+    - icu *     # [unix]
   run_constrained:
     - pdal {{ version }}.*
 
@@ -283,6 +289,8 @@ outputs:
         - ninja
       host:
         - tiledb
+        # see comment w.r.t. libxml2-devel & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
@@ -360,6 +368,8 @@ outputs:
         - libarrow
         - libarrow-dataset
         - libparquet
+        # see comment w.r.t. libxml2-devel & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
@@ -441,6 +451,8 @@ outputs:
       host:
         - cpd
         - fgt
+        # see comment w.r.t. libxml2-devel & icu at the top
+        - icu *             # [unix]
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         # TODO: add run_exports to cpd
