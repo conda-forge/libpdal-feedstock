@@ -46,7 +46,7 @@ target_platform:
 tiledb:
 - '2.29'
 xerces_c:
-- '3.2'
+- '3.3'
 zlib:
 - '1'
 zstd:
