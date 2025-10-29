@@ -17,10 +17,10 @@ glog:
 hdf5:
 - 1.14.6
 libarrow:
-- '18.1'
 - '19.0'
 - '20.0'
 - '21.0'
+- '22.0'
 libblas:
 - 3.9.* *netlib
 libcblas:
