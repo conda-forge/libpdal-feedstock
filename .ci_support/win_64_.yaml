@@ -36,7 +36,7 @@ libpq:
 libxml2_devel:
 - '2.14'
 mkl:
-- '2024'
+- '2025'
 openssl:
 - '3.5'
 proj:
@@ -46,7 +46,7 @@ target_platform:
 tiledb:
 - '2.29'
 xerces_c:
-- '3.2'
+- '3.3'
 zlib:
 - '1'
 zstd:
