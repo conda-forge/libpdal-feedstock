@@ -36,7 +36,7 @@ libcblas:
 libcurl:
 - '8'
 libgdal_core:
-- '3.11'
+- '3.12'
 libpdal:
 - 2.9.2
 libpq:
