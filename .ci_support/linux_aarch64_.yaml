@@ -50,7 +50,7 @@ proj:
 target_platform:
 - linux-aarch64
 tiledb:
-- '2.29'
+- '2.30'
 xerces_c:
 - '3.3'
 zip_keys:
