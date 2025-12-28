@@ -117,8 +117,8 @@ outputs:
         - ceres-solver
         - glog
         - gflags
-        - libblas
-        - libcblas
+        - libblas    # [unix]
+        - libcblas   # [unix]
         - mkl-devel  # [win]
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
