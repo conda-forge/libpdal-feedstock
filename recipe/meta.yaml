@@ -9,7 +9,7 @@ source:
   sha256: 22e90c8b9653e2bd0eb24efbe071b6c281e972145b47c0ccfdc329d73c188d9c
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
 
@@ -103,8 +103,7 @@ outputs:
       ignore_run_exports_from:
         - libblas
         - libcblas
-        - mkl  # [win]
-        - blas  # [win]
+        - mkl-devel  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
@@ -118,10 +117,9 @@ outputs:
         - ceres-solver
         - glog
         - gflags
-        - libblas
-        - libcblas
-        - mkl  # [win]
-        - blas  # [win]
+        - libblas    # [unix]
+        - libcblas   # [unix]
+        - mkl-devel  # [win]
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run_constrained:
