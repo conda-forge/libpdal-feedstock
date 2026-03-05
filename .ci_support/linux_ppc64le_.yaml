@@ -38,7 +38,7 @@ libcurl:
 libgdal_core:
 - '3.12'
 libpdal:
-- 2.9.2
+- '2.10'
 libpq:
 - '18'
 libxml2_devel:
@@ -46,7 +46,7 @@ libxml2_devel:
 openssl:
 - '3.5'
 proj:
-- '9.7'
+- '9.8'
 target_platform:
 - linux-ppc64le
 tiledb:
