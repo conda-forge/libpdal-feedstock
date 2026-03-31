@@ -9,7 +9,7 @@ source:
   sha256: 78765f1d06584c8e9b3b4a5b58c0ebea478d42ad21f1432717b31c20def05522
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('libpdal-core', max_pin='x.x') }}
 
@@ -150,7 +150,7 @@ outputs:
         - cmake
         - ninja
       host:
-        - hdf5
+        - libgdal-hdf5
         - {{ pin_subpackage('libpdal-core', exact=True) }}
         - {{ pin_subpackage('libpdal-icebridge', exact=True) }}
       run:
@@ -256,7 +256,7 @@ outputs:
         - ninja
       host:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
-        - hdf5
+        - libgdal-hdf5
       run:
         - {{ pin_subpackage('libpdal-core', exact=True) }}
       run_constrained:
