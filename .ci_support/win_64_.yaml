@@ -37,7 +37,7 @@ libpq:
 libxml2_devel:
 - '2.14'
 mkl_devel:
-- '2025'
+- '2026'
 openssl:
 - '3.5'
 proj:
