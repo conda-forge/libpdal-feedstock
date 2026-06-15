@@ -1,0 +1,549 @@
+schema_version: 1
+
+context:
+  version: "2.10.2"
+
+recipe:
+  name: libpdal-split
+  version: ${{ version }}
+
+source:
+  url: https://github.com/PDAL/PDAL/releases/download/${{ version }}/PDAL-${{ version }}-src.tar.bz2
+  sha256: 882b97aa3ae5db682c3b2dc8edef4e29bcc7ecea51c70592e71bc1f34112ad00
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: libpdal-core
+    build:
+      script:
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/build.sh
+            else: call %RECIPE_DIR%\build.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+        - pkg-config
+      host:
+        - libgdal-core
+        - geotiff
+        - libcurl
+        - zstd
+        - openssl
+        - zlib
+        - libxml2-devel
+        - proj
+      run:
+        # Help the solver pick an icu-compatible libxml2; libgdal-core depends
+        # on xerces-c, which pulls in icu on unix.
+        - if: unix
+          then: icu *
+      run_exports:
+        - ${{ pin_subpackage('libpdal-core', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - echo "Testing for header"
+            - if: unix
+              then: test -f ${PREFIX}/include/pdal/pdal.hpp
+              else: if not exist %LIBRARY_INC%\pdal\pdal.hpp exit 1
+            - echo "Testing for library"
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdalcpp${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\pdalcpp.dll exit 1
+            - echo "Testing for CLI"
+            - if: unix
+              then: test -f ${PREFIX}/bin/pdal
+              else: if not exist %LIBRARY_BIN%\pdal.exe exit 1
+            - pdal --version
+            - pdal --drivers --debug
+
+  - package:
+      name: libpdal
+    requirements:
+      host:
+        - ${{ pin_subpackage('libpdal-core', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-trajectory', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-hdf', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-tiledb', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-pgpointcloud', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-draco', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-arrow', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-nitf', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-e57', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-icebridge', upper_bound='x.x.x') }}
+        - if: not win
+          then: ${{ pin_subpackage('libpdal-cpd', upper_bound='x.x.x') }}
+      run:
+        - ${{ pin_subpackage('libpdal-core', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-trajectory', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-hdf', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-tiledb', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-pgpointcloud', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-draco', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-arrow', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-nitf', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-e57', upper_bound='x.x.x') }}
+        - ${{ pin_subpackage('libpdal-icebridge', upper_bound='x.x.x') }}
+        - if: not win
+          then: ${{ pin_subpackage('libpdal-cpd', upper_bound='x.x.x') }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-core', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-trajectory', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-hdf', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-tiledb', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-pgpointcloud', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-draco', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-arrow', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-nitf', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-e57', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-icebridge', upper_bound='x.x') }}
+        - if: not win
+          then: ${{ pin_subpackage('libpdal-cpd', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+
+  - package:
+      name: libpdal-trajectory
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: trajectory
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-core
+        - ceres-solver
+        - glog
+        - gflags
+        - if: unix
+          then: libblas
+        - if: unix
+          then: libcblas
+        - if: win
+          then: mkl-devel
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-trajectory', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+      ignore_run_exports:
+        from_package:
+          - libblas
+          - libcblas
+          - if: win
+            then: mkl-devel
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_filter_trajectory${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_filter_trajectory.dll exit 1
+    about:
+      summary: PDAL trajectory filter
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-hdf
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: hdf
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - hdf5
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - ${{ pin_subpackage('libpdal-icebridge', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - ${{ pin_subpackage('libpdal-icebridge', exact=True) }}
+        - libgdal-hdf5
+      run_exports:
+        - ${{ pin_subpackage('libpdal-hdf', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_hdf${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_hdf.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-draco
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: draco
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - draco
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_compatible('draco', exact=True) }}
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-draco', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_writer_draco${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_writer_draco.dll exit 1
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_draco${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_draco.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-e57
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: e57
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - xerces-c
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-e57', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_writer_e57${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_writer_e57.dll exit 1
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_e57${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_e57.dll exit 1
+
+  - package:
+      name: libpdal-icebridge
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: icebridge
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - hdf5
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-icebridge', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_icebridge${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_icebridge.dll exit 1
+
+  - package:
+      name: libpdal-tiledb
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: tiledb
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - tiledb
+        - if: unix
+          then: icu *
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-tiledb
+      run_exports:
+        - ${{ pin_subpackage('libpdal-tiledb', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+      ignore_run_exports:
+        from_package:
+          - if: unix
+            then: icu
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_writer_tiledb${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_writer_tiledb.dll exit 1
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_tiledb${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_tiledb.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-pgpointcloud
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: pgpointcloud
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - libpq
+        - libxml2-devel
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-pg
+      run_exports:
+        - ${{ pin_subpackage('libpdal-pgpointcloud', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_pgpointcloud${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_pgpointcloud.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-arrow
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: arrow
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - libarrow
+        - libarrow-dataset
+        - libparquet
+        - if: unix
+          then: icu *
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+        - libgdal-arrow-parquet
+      run_exports:
+        - ${{ pin_subpackage('libpdal-arrow', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+      ignore_run_exports:
+        from_package:
+          - if: unix
+            then: icu
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_writer_arrow${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_writer_arrow.dll exit 1
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_arrow${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_arrow.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-nitf
+    build:
+      script:
+        env:
+          PDAL_PLUGIN_NAME: nitf
+        content:
+          - if: unix
+            then: bash ${RECIPE_DIR}/install_pdal_plugin.sh
+            else: call %RECIPE_DIR%\install_pdal_plugin.bat
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+      host:
+        - nitro
+        - libcurl
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_compatible('nitro', exact=True) }}
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-nitf', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+      ignore_run_exports:
+        from_package:
+          - libcurl
+    tests:
+      - script:
+          content:
+            - if: unix
+              then: test -f ${PREFIX}/lib/libpdal_plugin_reader_nitf${SHLIB_EXT}
+              else: if not exist %LIBRARY_BIN%\libpdal_plugin_reader_nitf.dll exit 1
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+  - package:
+      name: libpdal-cpd
+    build:
+      skip: win
+      script:
+        env:
+          PDAL_PLUGIN_NAME: cpd
+        content:
+          - bash ${RECIPE_DIR}/install_pdal_plugin.sh
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('c') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+        - eigen
+      host:
+        - cpd
+        - fgt
+        - icu *
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run:
+        - ${{ pin_compatible('cpd', upper_bound='x.x') }}
+        - ${{ pin_compatible('fgt', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libpdal-core', exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage('libpdal-cpd', upper_bound='x.x') }}
+      run_constraints:
+        - pdal ${{ version }}.*
+      ignore_run_exports:
+        from_package:
+          - icu
+    tests:
+      - script:
+          content:
+            - test -f ${PREFIX}/lib/libpdal_plugin_filter_cpd${SHLIB_EXT}
+    about:
+      summary: Point Data Abstraction Library (PDAL)
+      license: BSD-3-Clause
+      license_file: LICENSE.txt
+
+about:
+  homepage: https://www.pdal.io
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  summary: Point Data Abstraction Library (PDAL)
+  description: Point cloud data processing.
+  documentation: https://pdal.io
+  repository: https://github.com/pdal/pdal
+
+extra:
+  feedstock-name: libpdal
+  recipe-maintainers:
+    - chambbj
+    - hobu
