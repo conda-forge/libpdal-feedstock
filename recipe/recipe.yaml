@@ -186,7 +186,7 @@ outputs:
         - cmake
         - ninja
       host:
-        - hdf5
+        - libgdal-hdf5
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
         - ${{ pin_subpackage('libpdal-icebridge', exact=True) }}
       run:
@@ -304,7 +304,7 @@ outputs:
         - ninja
       host:
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
-        - hdf5
+        - libgdal-hdf5
       run:
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
       run_exports:
