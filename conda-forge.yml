@@ -1,10 +1,15 @@
+azure:
+  settings_win:
+    variables:
+      CONDA_BLD_PATH: D:\bld\
+      MINIFORGE_HOME: C:\Miniforge
 build_platform:
   linux_aarch64: linux_64
   linux_ppc64le: linux_64
   osx_arm64: osx_64
 conda_build:
-  error_overlinking: true
   pkg_format: '2'
+conda_build_tool: rattler-build
 conda_forge_output_validation: true
 github:
   branch_name: main
@@ -16,3 +21,4 @@ provider:
   osx: azure
   win: azure
 test: native_and_emulated
+
