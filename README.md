@@ -7,7 +7,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libpdal-feedsto
 About libpdal
 -------------
 
-Home: https://www.pdal.io
+Home: https://www.pdal.io/
 
 Package license: BSD-3-Clause
 
@@ -15,81 +15,24 @@ Summary: Point Data Abstraction Library (PDAL)
 
 Development: https://github.com/pdal/pdal
 
-Documentation: https://pdal.io
+Documentation: https://pdal.io/
 
 Point cloud data processing.
-
-About libpdal-arrow
--------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-cpd
------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-draco
--------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-hdf
------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-nitf
-------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-pgpointcloud
---------------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
-
-About libpdal-tiledb
---------------------
-
-
-
-Package license: BSD-3-Clause
-
-Summary: Point Data Abstraction Library (PDAL)
 
 About libpdal-trajectory
 ------------------------
 
-
+Home: https://www.pdal.io/
 
 Package license: BSD-3-Clause
 
 Summary: PDAL trajectory filter
+
+Development: https://github.com/pdal/pdal
+
+Documentation: https://pdal.io/
+
+Point cloud data processing.
 
 Current build status
 ====================

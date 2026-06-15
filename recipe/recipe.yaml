@@ -111,6 +111,10 @@ outputs:
           then: ${{ pin_subpackage('libpdal-cpd', upper_bound='x.x') }}
       run_constraints:
         - pdal ${{ version }}.*
+    tests:
+      - script:
+          content:
+            - echo "tested in other outputs"
 
   - package:
       name: libpdal-trajectory
