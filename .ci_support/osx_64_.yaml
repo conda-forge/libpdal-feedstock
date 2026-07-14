@@ -24,14 +24,11 @@ gflags:
 - '2.2'
 glog:
 - '0.7'
-hdf5:
-- 1.14.6
-- '2'
 libarrow:
-- '21.0'
 - '22.0'
 - '23.0'
 - '24.0'
+- '25.0'
 libblas:
 - 3.9.* *netlib
 libcblas:
