@@ -19,12 +19,9 @@ docker_image:
 geotiff:
 - '1.7'
 gflags:
-- '2.2'
+- '2.3'
 glog:
 - '0.7'
-hdf5:
-- 1.14.6
-- '2'
 libarrow:
 - '21.0'
 - '22.0'
