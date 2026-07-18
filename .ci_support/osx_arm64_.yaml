@@ -21,7 +21,7 @@ cxx_compiler_version:
 geotiff:
 - '1.7'
 gflags:
-- '2.2'
+- '2.3'
 glog:
 - '0.7'
 libarrow:
