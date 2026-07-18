@@ -19,8 +19,6 @@ libarrow:
 - '23.0'
 - '24.0'
 - '25.0'
-libcurl:
-- '8'
 libgdal_core:
 - '3.13'
 libpq:
