@@ -34,7 +34,9 @@ outputs:
       host:
         - libgdal-core
         - geotiff
-        - libcurl
+        - if: win
+          then: libcurl ==8.21.0 h8206538_1
+          else: libcurl
         - zstd
         - openssl
         - zlib
@@ -475,7 +477,9 @@ outputs:
         - ninja
       host:
         - nitro
-        - libcurl
+        - if: win
+          then: libcurl ==8.21.0 h8206538_1
+          else: libcurl
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - ${{ pin_compatible('nitro', exact=True) }}
