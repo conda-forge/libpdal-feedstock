@@ -12,7 +12,7 @@ source:
   sha256: 882b97aa3ae5db682c3b2dc8edef4e29bcc7ecea51c70592e71bc1f34112ad00
 
 build:
-  number: 4
+  number: 5
 
 outputs:
   - package:
@@ -33,8 +33,10 @@ outputs:
         - pkg-config
       host:
         - libgdal-core
+        - if: target_platform == "win-arm64"
+          then: libgdal-core-devel
         - geotiff
-        - if: win
+        - if: win and target_platform != "win-arm64"
           then: libcurl ==8.21.0 h8206538_1
           else: libcurl
         - zstd
@@ -68,9 +70,20 @@ outputs:
               else: if not exist %LIBRARY_BIN%\pdal.exe exit 1
             - pdal --version
             - pdal --drivers --debug
+      - if: target_platform == "win-arm64"
+        then:
+          requirements:
+            run:
+              - python >=3.14
+          files:
+            recipe:
+              - test_win_arm64.py
+          script: python test_win_arm64.py
 
   - package:
       name: libpdal
+    build:
+      skip: target_platform == "win-arm64"
     requirements:
       host:
         - ${{ pin_subpackage('libpdal-core', upper_bound='x.x.x') }}
@@ -121,6 +134,7 @@ outputs:
   - package:
       name: libpdal-trajectory
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: trajectory
@@ -173,6 +187,7 @@ outputs:
   - package:
       name: libpdal-hdf
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: hdf
@@ -213,6 +228,7 @@ outputs:
   - package:
       name: libpdal-draco
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: draco
@@ -255,6 +271,7 @@ outputs:
   - package:
       name: libpdal-e57
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: e57
@@ -291,6 +308,7 @@ outputs:
   - package:
       name: libpdal-icebridge
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: icebridge
@@ -324,6 +342,7 @@ outputs:
   - package:
       name: libpdal-tiledb
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: tiledb
@@ -372,6 +391,7 @@ outputs:
   - package:
       name: libpdal-pgpointcloud
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: pgpointcloud
@@ -411,6 +431,7 @@ outputs:
   - package:
       name: libpdal-arrow
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: arrow
@@ -461,6 +482,7 @@ outputs:
   - package:
       name: libpdal-nitf
     build:
+      skip: target_platform == "win-arm64"
       script:
         env:
           PDAL_PLUGIN_NAME: nitf
