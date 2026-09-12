@@ -479,7 +479,7 @@ outputs:
         - ninja
       host:
         - nitro
-        - if: win
+        - if: win and target_platform != "win-arm64"
           then: libcurl ==8.21.0 h8206538_1
           else: libcurl
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
