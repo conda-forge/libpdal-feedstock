@@ -12,7 +12,7 @@ source:
   sha256: 882b97aa3ae5db682c3b2dc8edef4e29bcc7ecea51c70592e71bc1f34112ad00
 
 build:
-  number: 4
+  number: 5
 
 outputs:
   - package:
@@ -33,8 +33,10 @@ outputs:
         - pkg-config
       host:
         - libgdal-core
+        - if: target_platform == "win-arm64"
+          then: libgdal-core-devel
         - geotiff
-        - if: win
+        - if: win and target_platform != "win-arm64"
           then: libcurl ==8.21.0 h8206538_1
           else: libcurl
         - zstd
@@ -141,11 +143,11 @@ outputs:
         - ceres-solver
         - glog
         - gflags
-        - if: unix
+        - if: unix or target_platform == "win-arm64"
           then:
             - libblas
             - libcblas
-        - if: win
+        - if: win and target_platform != "win-arm64"
           then: mkl-devel
       run:
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
@@ -157,7 +159,7 @@ outputs:
         from_package:
           - libblas
           - libcblas
-          - if: win
+          - if: win and target_platform != "win-arm64"
             then: mkl-devel
     tests:
       - script:
@@ -477,7 +479,7 @@ outputs:
         - ninja
       host:
         - nitro
-        - if: win
+        - if: win and target_platform != "win-arm64"
           then: libcurl ==8.21.0 h8206538_1
           else: libcurl
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
