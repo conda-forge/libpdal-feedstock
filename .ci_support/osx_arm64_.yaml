@@ -22,11 +22,6 @@ gflags:
 - '2.3'
 glog:
 - '0.7'
-libarrow:
-- '23.0'
-- '24.0'
-- '25.0'
-- '26.0'
 libblas:
 - 3.9.* *netlib
 libcblas:
