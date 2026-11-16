@@ -424,7 +424,7 @@ outputs:
         - cmake
         - ninja
       host:
-        - libarrow
+        - libarrow < 26
         - libarrow-dataset
         - libparquet
         - if: unix
