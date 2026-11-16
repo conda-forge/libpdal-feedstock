@@ -390,7 +390,6 @@ outputs:
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
       run:
         - ${{ pin_subpackage('libpdal-core', exact=True) }}
-        - libgdal-pg
       run_exports:
         - ${{ pin_subpackage('libpdal-pgpointcloud', upper_bound='x.x') }}
       run_constraints:
