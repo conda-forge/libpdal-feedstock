@@ -14,11 +14,6 @@ gflags:
 - '2.3'
 glog:
 - '0.7'
-libarrow:
-- '22.0'
-- '23.0'
-- '24.0'
-- '25.0'
 libcurl:
 - '8'
 libgdal_core:
