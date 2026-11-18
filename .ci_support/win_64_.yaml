@@ -14,6 +14,9 @@ gflags:
 - '2.3'
 glog:
 - '0.7'
+hdf5:
+- 1.14.6
+- '2'
 libcurl:
 - '8'
 libgdal_core:
