@@ -5,7 +5,15 @@ set -ex
 # strip std settings from conda
 CXXFLAGS="${CXXFLAGS/-std=c++14/}"
 CXXFLAGS="${CXXFLAGS/-std=c++11/}"
-CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+if [[ "${target_platform}" == osx-* ]]; then
+  # Build against older SDKs with conda-forge's newer libc++.
+  CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+  # PDAL's CMake configuration manages the install rpath. Keeping the same
+  # rpath in LDFLAGS makes install_name_tool try to add it a second time.
+  pdal_rpath_flag="-Wl,-rpath,${PREFIX}/lib"
+  export LDFLAGS="${LDFLAGS//${pdal_rpath_flag}/}"
+  CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_RPATH=${PREFIX}/lib"
+fi
 export CXXFLAGS
 
 if [ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]; then
@@ -14,9 +22,10 @@ if [ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]; then
   CFLAGS_NATIVE=${CFLAGS//$PREFIX/$BUILD_PREFIX}
   CXXFLAGS_NATIVE=${CXXFLAGS//$PREFIX/$BUILD_PREFIX}
   LDFLAGS_NATIVE=${LDFLAGS//$PREFIX/$BUILD_PREFIX}
-  # also need to strip wrong architectures specifications for native builds
-  CFLAGS_NATIVE="$(echo ${CFLAGS_NATIVE} | sed 's/-march=[^ ]*//g' | sed 's/-mcpu=[^ ]*//g' | sed 's/-mtune=[^ ]*//g')"
-  CXXFLAGS_NATIVE="$(echo ${CXXFLAGS_NATIVE} | sed 's/-march=[^ ]*//g' | sed 's/-mcpu=[^ ]*//g' | sed 's/-mtune=[^ ]*//g')"
+  # Remove target architecture flags when building the native code generator.
+  native_arch_flags='s/-m(arch|cpu|tune)=[^ ]*//g; s/-m(sse|ssse|avx)[^ ]*//g'
+  CFLAGS_NATIVE="$(printf '%s\n' "$CFLAGS_NATIVE" | sed -E "$native_arch_flags")"
+  CXXFLAGS_NATIVE="$(printf '%s\n' "$CXXFLAGS_NATIVE" | sed -E "$native_arch_flags")"
 
   CC=$CC_FOR_BUILD CXX=$CXX_FOR_BUILD \
     LDFLAGS=${LDFLAGS_NATIVE} \
@@ -24,10 +33,13 @@ if [ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]; then
     CXXFLAGS=${CXXFLAGS_NATIVE} \
     cmake -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_BUILD_RPATH="$BUILD_PREFIX/lib" \
+        -DNLOHMANN_INCLUDE_DIR="$SRC_DIR/vendor/nlohmann" \
+        -DUTFCPP_INCLUDE_DIR="$SRC_DIR/vendor/utfcpp/source" \
         ${EXTRA_CMAKE_ARGS} \
-        ..
+        ../dimbuilder
 
-  export DIMBUILDER=`pwd`/bin/dimbuilder
+  export DIMBUILDER="$(pwd)/dimbuilder"
   ninja dimbuilder
   popd
 else
@@ -41,11 +53,6 @@ cd build
 
 export PDAL_BUILD_DIR=`pwd`/install
 mkdir $PDAL_BUILD_DIR
-
-if [[ "${target_platform}" == osx-* ]]; then
-    # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
-    CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
-fi
 
 cmake -G Ninja \
   ${CMAKE_ARGS} \

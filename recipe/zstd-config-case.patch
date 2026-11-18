@@ -1,0 +1,32 @@
+Use the case-sensitive result of find_package(zstd).
+
+PDAL 2.10.2 checks ZSTD_FOUND after requesting the lowercase zstd config
+package. This silently disables the requested Zstd support, leaving the
+recipe with an unused runtime dependency.
+
+--- a/cmake/zstd.cmake
++++ b/cmake/zstd.cmake
+@@ -5,9 +5,9 @@
+     "Build support for compression/decompression with Zstd." TRUE)
+ if (WITH_ZSTD)
+     find_package(zstd CONFIG QUIET)
+-    set_package_properties(ZSTD PROPERTIES TYPE
++    set_package_properties(zstd PROPERTIES TYPE OPTIONAL
+         PURPOSE "General compression support")
+-    if (ZSTD_FOUND)
++    if (zstd_FOUND)
+         set(PDAL_HAVE_ZSTD 1)
+-    endif(ZSTD_FOUND)
++    endif(zstd_FOUND)
+ endif(WITH_ZSTD)
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -272,7 +272,7 @@
+         ${WINSOCK_LIBRARY}
+ )
+ 
+-if (ZSTD_FOUND)
++if (zstd_FOUND)
+     target_link_libraries(${PDAL_LIB_NAME}
+         PRIVATE
+         zstd::libzstd)
