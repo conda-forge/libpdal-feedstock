@@ -30,7 +30,7 @@ outputs:
         - ${{ stdlib('c') }}
         - cmake
         - ninja
-        - pkgconf
+        - pkg-config
       host:
         - libgdal-core
         - geotiff
