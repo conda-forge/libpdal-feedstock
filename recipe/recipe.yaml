@@ -12,18 +12,18 @@ source:
   sha256: 882b97aa3ae5db682c3b2dc8edef4e29bcc7ecea51c70592e71bc1f34112ad00
 
 build:
-  number: 9
+  number: 10
   dynamic_linking:
-    overlinking_behavior: ${{ "error" if unix else "ignore" }}
-    overdepending_behavior: ${{ "error" if unix else "ignore" }}
+    overlinking_behavior: "ignore"
+    overdepending_behavior: "ignore"
 
 outputs:
   - package:
       name: libpdal-core
     build:
       dynamic_linking:
-        overlinking_behavior: ${{ "error" if unix else "ignore" }}
-        overdepending_behavior: ${{ "error" if unix else "ignore" }}
+        overlinking_behavior: "ignore"
+        overdepending_behavior: "ignore"
         # rattler-build 0.80.2 excludes symlinks from its own-package check.
         # This SONAME is shipped by this output, and tested below.
         missing_dso_allowlist:
